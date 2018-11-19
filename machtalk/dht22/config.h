@@ -1,1 +1,0 @@
-#define SUPPORT_MYSQL_DB
