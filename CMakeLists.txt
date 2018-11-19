@@ -32,18 +32,13 @@ set(SRC_LIST dht22.c
 add_executable(machtalk_dht22 ${SRC_LIST})
 
 option(SUPPORT_MYSQL_DB 
-	"insert the temp data to local database" ON)
+	"insert the temp data to local database" OFF)
 if (SUPPORT_MYSQL_DB)
 	include_directories ("${PROJECT_SOURCE_DIR}/TempRecord")
 	ADD_SUBDIRECTORY(TempRecord)
 	set(EXTRA_LIBS ${EXTRA_LIBS} TempRecord)
 endif (SUPPORT_MYSQL_DB) 
 
-#add iniparser support 
-include_directories ("${PROJECT_SOURCE_DIR}/iniparser")
-ADD_SUBDIRECTORY(iniparser)
-set(EXTRA_LIBS ${EXTRA_LIBS} iniparser)
-#target_link_libraries(machtalk_dht22 iniparser)
 
 target_link_libraries(machtalk_dht22 -lwiringPi)
 target_link_libraries(machtalk_dht22 -lpthread)
@@ -54,7 +49,6 @@ if (SUPPORT_MYSQL_DB)
 	TARGET_LINK_LIBRARIES(machtalk_dht22  TempRecord)
 endif (SUPPORT_MYSQL_DB)
 
-target_link_libraries(machtalk_dht22  iniparser )
 #SET(EXECUTABLE_OUTPUT_PATH /usr/local/bin)
 #SET(CMAKE_INSTALL_PREFIX /usr)
 
