@@ -14,6 +14,6 @@ func RpiCpuTemp() string {
 	n, _ := file.Read(buf)
 	//fmt.Println("buf = ", string(buf[:n]))
 	f, _ := strconv.ParseFloat(string(buf[:n]), 64)
-	rpi_temp := fmt.Sprintf("%2.2f%", f/1000)
+	rpi_temp := fmt.Sprintf("%2.2f", f/1000)
 	return rpi_temp
 }
