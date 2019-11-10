@@ -6,3 +6,4 @@
 6. install docker && docker-compose
 7. run mysql server with cmd: docker-compose up 
 8. $ ./MyRasPi # Print out the Temperature & Humidity info of DHT22 and insert it into mysql server
+9. get the temp & humi from web: (https://rpi_pi:8080/echart.php](https://rpi_ip:8080/echart.php)

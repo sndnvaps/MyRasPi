@@ -1,4 +1,5 @@
-version: '3'
+version: '2'
+
 services:
   mysql:
     image: yoojia/mysql:alpine-armv7
@@ -8,7 +9,6 @@ services:
       - PUID=1000
       - PGID=1000
       - MYSQL_ROOT_PASSWORD=5XSwBxGx
-#      - MYSQL_DATABASE=temps
       - MYSQL_USER=mysql
       - MYSQL_PASSWORD=pi
     ports:
@@ -18,3 +18,24 @@ services:
     restart: unless-stopped
     privileged: true
     read_only: false
+    networks:
+      extnetwork:
+        ipv4_address: 173.10.0.2
+  httpd:
+    image: theteapot418/apache-php7.1-arm
+    container_name: rpi-apache-php7
+    ports:
+      - "8080:80"
+    volumes:
+      - ./www:/www
+    restart: unless-stopped
+    networks:
+      extnetwork:
+        ipv4_address: 173.10.0.3
+
+networks:
+  extnetwork:
+    ipam:
+       config:
+         - subnet: 173.10.0.0/16
+           gateway: 173.10.0.1
