@@ -1,12 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"github.com/d2r2/go-dht"
 	logger "github.com/d2r2/go-logger"
 	cron "gopkg.in/robfig/cron.v3"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 )
 
 var (
@@ -18,6 +20,9 @@ var (
 	pin        = 4
 )
 
+func init() {
+	InitMySQL()
+}
 func RunEveryMinutes() {
 	c := cron.New()
 	//Every Minutes go Read the dht22 info
@@ -35,6 +40,11 @@ func GetDhtxxData() {
 	if err == nil {
 		lg.Infof("Sensor = %v: Temperature = %v*C, Humidity = %v%% (retried %d times)",
 			sensorType, temperature, humidity, retried)
+		temp := fmt.Sprintf("%2.2f", temperature)
+		humi := fmt.Sprintf("%2.2f", humidity)
+		cpu_temp := RpiCpuTemp()
+		update_time := time.Now()
+		Insert(temp, humi, cpu_temp, update_time)
 	}
 
 }
@@ -44,12 +54,12 @@ func main() {
 	logger.SetLogFileName("MyRasPi.log")
 	defer logger.FinalizeLogger()
 	signalChan := make(chan os.Signal, 1)
-	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM,syscall.SIGKILL, os.Interrupt)
+	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL, os.Interrupt)
 	go func() {
 		for {
 			select {
 			case <-signalChan:
-		                lg.Infof("正在结束！")
+				lg.Infof("正在结束！")
 				os.Exit(0)
 			}
 		}
