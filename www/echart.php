@@ -114,9 +114,33 @@ option = {
         yAxisIndex: 1
     }]
 };;
-if (option && typeof option === "object") {
-    myChart.setOption(option, true);
-}
+
+myChart.setOption(option,true);
+
+//Refresh every 30 sec
+setInterval(function() {
+    getrecords();
+    var myChart = echarts.init(document.getElementById('container'));
+    myChart.setOption({
+      xAxis: [{
+        data: update_times
+        }, {
+        data: update_times,
+        gridIndex: 1
+        }],
+       grid: [{
+           bottom: '60%'
+       }, {
+          top: '60%'
+       }],
+       series: [{
+          data : temps
+       }, {
+          data: humis,
+          yAxisIndex: 1
+       }]
+      });
+  },1000 * 30); //ReFresh 30 sec
        </script>
    </body>
 </html>
