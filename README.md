@@ -1,7 +1,7 @@
 1. Install go first
 2. go get -u github.com/d2r2/go-dht
-3. git clone https://github.com/sndnvaps/MyRasPi -b go-dht22 $GOPATH/src/github.com/sndnvaps/MyRasPi
-4. change dht22.go#L48, set it for youself
+3. git clone https://github.com/sndnvaps/MyRasPi  $GOPATH/src/github.com/sndnvaps/MyRasPi
+4. change [dht22.go#L20](dht22.go#L20), set it for youself
 5. go build
 6. install docker && docker-compose
 7. run mysql server with cmd: docker-compose up 
