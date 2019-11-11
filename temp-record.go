@@ -11,7 +11,7 @@ import (
 var DB *sql.DB
 
 func InitMySQL() {
-	DB, _ = sql.Open("mysql", "root:5XSwBxGx@tcp(localhost:3306)/Temps")
+	DB, _ = sql.Open("mysql", "root:5XSwBxGx@tcp(localhost:3306)/Temps?parseTime=true&loc=Local")
 	//设置数据库最大连接数
 	DB.SetConnMaxLifetime(100)
 	//设置上数据库最大闲置连接数
@@ -32,6 +32,7 @@ func Insert(temp, humi, cpu_temp string, update_time time.Time) bool {
 		return false
 	}
 	//准备sql语句
+	//使用sql now()命令来获取插入的时间
 	stmt, err := tx.Prepare("INSERT INTO pi_temps(temp, humi,rpi_cpu_temp,update_time) VALUES(?, ?, ?, ?)")
 	if err != nil {
 		lg.Infof("Prepare fail")

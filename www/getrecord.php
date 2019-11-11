@@ -14,6 +14,9 @@ class Alteration{
     public $update_time;
 }
 
+//set timezone +8:00
+$mysqli->query("SET time_zone = '+8:00'");
+
 $query = "SELECT temp,humi,update_time FROM pi_temps";
 
 if ($stmt = $mysqli->prepare($query)) {

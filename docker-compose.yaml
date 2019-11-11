@@ -11,6 +11,8 @@ services:
       - MYSQL_ROOT_PASSWORD=5XSwBxGx
       - MYSQL_USER=mysql
       - MYSQL_PASSWORD=pi
+      - SET_CONTAINER_TIMEZONE=true
+      - CONTAINER_TIMEZONE=Asia/Shanghai
     ports:
       - "3306:3306"
     volumes:
@@ -24,6 +26,10 @@ services:
   httpd:
     image: theteapot418/apache-php7.1-arm
     container_name: rpi-apache-php7
+    hostname: rpi-apache-php-server
+    environment:
+      - SET_CONTAINER_TIMEZONE=true
+      - CONTAINER_TIMEZONE=Asia/Shanghai
     ports:
       - "8080:80"
     volumes:

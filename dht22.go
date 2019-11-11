@@ -43,7 +43,8 @@ func GetDhtxxData() {
 		temp := fmt.Sprintf("%2.2f", temperature)
 		humi := fmt.Sprintf("%2.2f", humidity)
 		cpu_temp := RpiCpuTemp()
-		update_time := time.Now()
+		cstZone := time.FixedZone("CST", 8*3600)
+		update_time := time.Now().In(cstZone)
 		Insert(temp, humi, cpu_temp, update_time)
 	}
 

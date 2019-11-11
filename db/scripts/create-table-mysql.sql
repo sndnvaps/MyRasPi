@@ -1,3 +1,4 @@
+set global time_zone = '+8:00';
 CREATE DATABASE IF NOT EXISTS Temps DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
 use Temps;
 set charset utf8;
