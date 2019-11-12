@@ -1,4 +1,17 @@
 <?php
+//http://rpi_ip/getrecord.php?search=all
+//http://rpi_pi/getrecord.php?search=one
+if (isset($_GET['search']) && is_string($_GET['search'])) {
+    $search = (string) $_GET['search'];
+    if (strcmp($search,"all") == 0) {
+             $is_search_all = true;
+    } else if (strcmp($search, "one") == 0) {
+              $is_search_all = false;
+    }
+ } else {
+      $is_search_all = true;
+ }
+
 $mysqli = new mysqli("173.10.0.2", "root", "5XSwBxGx", "Temps");
 
 /* check connection */
@@ -16,8 +29,12 @@ class Alteration{
 
 //set timezone +8:00
 $mysqli->query("SET time_zone = '+8:00'");
-
-$query = "SELECT temp,humi,update_time FROM pi_temps";
+//get one record && all the record
+if ($is_search_all) {
+    $query = "SELECT temp,humi,update_time FROM pi_temps";
+} else {
+    $query = "SELECT temp,humi,update_time FROM pi_temps where id= (SELECT MAX(id) FROM pi_temps)";
+}
 
 if ($stmt = $mysqli->prepare($query)) {
 

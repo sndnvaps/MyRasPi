@@ -24,9 +24,9 @@ option = null;
 //调用ajax来实现异步的加载数据
     function getrecords() {
         $.ajax({
-            type: "post",
+            type: "get",
             async: false,
-            url: "getrecord.php",
+            url: "getrecord.php?search=all",
             data: {},
             dataType: "json",
             success: function(result){
@@ -48,6 +48,30 @@ option = null;
 
 getrecords();
 
+// 调用ajax来实现异步的加载数据，只获取一条数据
+    function getrecord() {
+        $.ajax({
+            type: "get",
+            async: false,
+            url: "getrecord.php?search=one",
+            data: {},
+            dataType: "json",
+            success: function(result){
+                if(result){
+                    for(var i = 0 ; i < result.length; i++){
+                        temps.push(result[i].temp);
+                        humis.push(result[i].humi);
+                        update_times.push(result[i].update_time);
+
+                    }
+                }
+            },
+            error: function(errmsg) {
+                alert("Ajax获取服务器数据出错了！"+ errmsg);
+            }
+        });
+    return temps,humis,update_times;
+    }
 
 option = {
 
@@ -115,12 +139,12 @@ option = {
     }]
 };;
 
-myChart.setOption(option,true);
+//myChart.setOption(option,true);
 
 //Refresh every 30 sec
 setInterval(function() {
-    getrecords();
-    var myChart = echarts.init(document.getElementById('container'));
+    getrecord();
+   // var myChart = echarts.init(document.getElementById('container'));
     myChart.setOption({
       xAxis: [{
         data: update_times
@@ -141,6 +165,11 @@ setInterval(function() {
        }]
       });
   },1000 * 30); //ReFresh 30 sec
+
+if (option && typeof option == "object") {
+     myChart.setOption(option,true);
+}
+
        </script>
    </body>
 </html>
